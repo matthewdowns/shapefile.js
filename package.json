@@ -1,0 +1,37 @@
+{
+  "name": "shapefile.js",
+  "version": "0.0.0",
+  "description": "Read shapefiles in the browser",
+  "main": "index.js",
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "tsc -p .",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/matthewdowns/shapefile.js.git"
+  },
+  "author": "Matthew Downs <matthew.downsc@gmail.com>",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/matthewdowns/shapefile.js/issues"
+  },
+  "homepage": "https://github.com/matthewdowns/shapefile.js#readme",
+  "devDependencies": {
+    "@babel/core": "^7.17.2",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-typescript": "^7.16.7",
+    "@types/jest": "^27.4.0",
+    "babel-jest": "^27.5.1",
+    "jest": "^27.5.1",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^27.1.3",
+    "ts-node": "^10.5.0",
+    "typescript": "^4.5.5"
+  },
+  "dependencies": {
+    "Buffer": "^0.0.0",
+    "jszip": "^3.7.1"
+  }
+}
