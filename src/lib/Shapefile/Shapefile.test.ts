@@ -30,52 +30,52 @@ describe('Shapefile', () => {
     });
 
     describe('parsers', () => {
-        test.skip('shp', async () => {
+        test('shp', async () => {
             const parsed = USA_adm1.parse('shp');
             expect(parsed.header.file.code).toBe(9994);
-            expect(parsed.header.file.length).toBe(16511606);
+            expect(parsed.header.file.length).toBe(17164452);
             expect(parsed.header.type).toBe(5);
-            expect(parsed.header.boundingBox.minX).toBe(-179.15055847167946);
-            expect(parsed.header.boundingBox.minY).toBe(18.909858703613565);
-            expect(parsed.header.boundingBox.maxX).toBe(179.77340698242222);
-            expect(parsed.header.boundingBox.maxY).toBe(72.68750000000043);
+            expect(parsed.header.boundingBox.minX).toBe(-179.15055847167963);
+            expect(parsed.header.boundingBox.minY).toBe(18.909858703613395);
+            expect(parsed.header.boundingBox.maxX).toBe(179.77340698242205);
+            expect(parsed.header.boundingBox.maxY).toBe(72.68750000000004);
             expect(parsed.header.range.minZ).toBe(0);
             expect(parsed.header.range.maxZ).toBe(0);
             expect(parsed.header.range.minM).toBe(0);
             expect(parsed.header.range.maxM).toBe(0);
-            expect(parsed.records.length).toBe(1);
+            expect(parsed.records.length).toBe(52);
             expect(parsed.records[0].header.number).toBe(1);
             expect(parsed.records[0].body.type).toBe(5);
-            expect((parsed.records[0].body.data as ShapePolygon).boundingBox.minX).toBe(-179.15055847167946);
-            expect((parsed.records[0].body.data as ShapePolygon).boundingBox.minY).toBe(18.909858703613565);
-            expect((parsed.records[0].body.data as ShapePolygon).boundingBox.maxX).toBe(179.77340698242222);
-            expect((parsed.records[0].body.data as ShapePolygon).boundingBox.maxY).toBe(72.68750000000043);
-            expect((parsed.records[0].body.data as ShapePolygon).numberOfParts).toBe(8437);
-            expect((parsed.records[0].body.data as ShapePolygon).numberOfPoints).toBe(2061832);
-            expect((parsed.records[0].body.data as ShapePolygon).parts.length).toBe(8437);
-            expect((parsed.records[0].body.data as ShapePolygon).points.length).toBe(2061832);
+            expect((parsed.records[0].body.data as ShapePolygon).boundingBox.minX).toBe(-88.47203063964844);
+            expect((parsed.records[0].body.data as ShapePolygon).boundingBox.minY).toBe(30.217247009277287);
+            expect((parsed.records[0].body.data as ShapePolygon).boundingBox.maxX).toBe(-84.89348602294923);
+            expect((parsed.records[0].body.data as ShapePolygon).boundingBox.maxY).toBe(35.00888061523449);
+            expect((parsed.records[0].body.data as ShapePolygon).numberOfParts).toBe(23);
+            expect((parsed.records[0].body.data as ShapePolygon).numberOfPoints).toBe(11029);
+            expect((parsed.records[0].body.data as ShapePolygon).parts.length).toBe(23);
+            expect((parsed.records[0].body.data as ShapePolygon).points.length).toBe(11029);
         });
 
-        test.skip('shx', async () => {
+        test('shx', async () => {
             const parsed = USA_adm1.parse('shx');
             expect(parsed.header.file.code).toBe(9994);
-            expect(parsed.header.file.length).toBe(54);
+            expect(parsed.header.file.length).toBe(258);
             expect(parsed.header.type).toBe(5);
-            expect(parsed.header.boundingBox.minX).toBe(-179.15055847167946);
-            expect(parsed.header.boundingBox.minY).toBe(18.909858703613565);
-            expect(parsed.header.boundingBox.maxX).toBe(179.77340698242222);
-            expect(parsed.header.boundingBox.maxY).toBe(72.68750000000043);
+            expect(parsed.header.boundingBox.minX).toBe(-179.15055847167963);
+            expect(parsed.header.boundingBox.minY).toBe(18.909858703613395);
+            expect(parsed.header.boundingBox.maxX).toBe(179.77340698242205);
+            expect(parsed.header.boundingBox.maxY).toBe(72.68750000000004);
             expect(parsed.header.range.minZ).toBe(0);
             expect(parsed.header.range.maxZ).toBe(0);
             expect(parsed.header.range.minM).toBe(0);
             expect(parsed.header.range.maxM).toBe(0);
-            expect(parsed.records.length).toBe(1);
+            expect(parsed.records.length).toBe(52);
             expect(parsed.records[0].offset).toBe(50);
-            expect(parsed.records[0].length).toBe(16511552);
+            expect(parsed.records[0].length).toBe(88300);
         });
 
         test('dbf', () => {
-            const parsed = USA_adm1.parse('dbf', 'UTC', true);
+            const parsed = USA_adm1.parse('dbf', 'UTC', false);
             expect(parsed.header.version).toBe(3);
             expect(parsed.header.lastUpdated.toISOString()).toBe(moment.utc('2015-08-11 00:00:00').toISOString());
             expect(parsed.header.numberOfRecords).toBe(52);
