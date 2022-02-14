@@ -1,6 +1,6 @@
 {
   "name": "shapefile.js",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Read shapefiles in the browser",
   "main": "dist/index.js",
   "files": [
