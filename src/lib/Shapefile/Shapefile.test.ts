@@ -1,4 +1,5 @@
 import { readFileSync } from 'fs';
+import moment from 'moment';
 import { join, resolve } from 'path';
 import { ShapePolygon } from '../../types';
 import Shapefile from './Shapefile';
@@ -8,34 +9,29 @@ const testsDir = resolve(__dirname, '../../../tests');
 const USA_adm = readFileSync(join(testsDir, 'USA_adm.zip'));
 
 describe('Shapefile', () => {
-    let shapefiles: Record<string, Shapefile>;
-    let USA_adm0: Shapefile;
-
-    beforeAll(async () => {
-        shapefiles = await load(USA_adm, true);
-        USA_adm0 = shapefiles['USA_adm0'];
-    });
+    let USA_adm1: Shapefile;
 
     test('load', async () => {
-        expect(USA_adm0).toBeDefined();
-        expect(USA_adm0.contents.shp).toBeDefined();
-        expect(USA_adm0.contents.shx).toBeDefined();
-        expect(USA_adm0.contents.dbf).toBeDefined();
-        expect(USA_adm0.contents.prj).toBeDefined();
-        expect(USA_adm0.contents.sbn).toBeUndefined();
-        expect(USA_adm0.contents.fbn).toBeUndefined();
-        expect(USA_adm0.contents.ain).toBeUndefined();
-        expect(USA_adm0.contents.ixs).toBeUndefined();
-        expect(USA_adm0.contents.mxs).toBeUndefined();
-        expect(USA_adm0.contents.atx).toBeUndefined();
-        expect(USA_adm0.contents.shpxml).toBeUndefined();
-        expect(USA_adm0.contents.cpg).toBeDefined();
-        expect(USA_adm0.contents.qix).toBeUndefined();
+        USA_adm1 = (await load(USA_adm, true))['USA_adm1'];
+        expect(USA_adm1).toBeDefined();
+        expect(USA_adm1.contents.shp).toBeDefined();
+        expect(USA_adm1.contents.shx).toBeDefined();
+        expect(USA_adm1.contents.dbf).toBeDefined();
+        expect(USA_adm1.contents.prj).toBeDefined();
+        expect(USA_adm1.contents.sbn).toBeUndefined();
+        expect(USA_adm1.contents.fbn).toBeUndefined();
+        expect(USA_adm1.contents.ain).toBeUndefined();
+        expect(USA_adm1.contents.ixs).toBeUndefined();
+        expect(USA_adm1.contents.mxs).toBeUndefined();
+        expect(USA_adm1.contents.atx).toBeUndefined();
+        expect(USA_adm1.contents.shpxml).toBeUndefined();
+        expect(USA_adm1.contents.cpg).toBeDefined();
+        expect(USA_adm1.contents.qix).toBeUndefined();
     });
 
     describe('parsers', () => {
-        test('shp', async () => {
-            const parsed = USA_adm0.parse('shp');
+        test.skip('shp', async () => {
+            const parsed = USA_adm1.parse('shp');
             expect(parsed.header.file.code).toBe(9994);
             expect(parsed.header.file.length).toBe(16511606);
             expect(parsed.header.type).toBe(5);
@@ -60,8 +56,8 @@ describe('Shapefile', () => {
             expect((parsed.records[0].body.data as ShapePolygon).points.length).toBe(2061832);
         });
 
-        test('shx', async () => {
-            const parsed = USA_adm0.parse('shx');
+        test.skip('shx', async () => {
+            const parsed = USA_adm1.parse('shx');
             expect(parsed.header.file.code).toBe(9994);
             expect(parsed.header.file.length).toBe(54);
             expect(parsed.header.type).toBe(5);
@@ -77,5 +73,16 @@ describe('Shapefile', () => {
             expect(parsed.records[0].offset).toBe(50);
             expect(parsed.records[0].length).toBe(16511552);
         });
-    })
+
+        test('dbf', () => {
+            const parsed = USA_adm1.parse('dbf', 'UTC', true);
+            expect(parsed.header.version).toBe(3);
+            expect(parsed.header.lastUpdated.toISOString()).toBe(moment.utc('2015-08-11 00:00:00').toISOString());
+            expect(parsed.header.numberOfRecords).toBe(52);
+            expect(parsed.header.numberOfBytesInHeader).toBe(321);
+            expect(parsed.header.numberOfBytesInRecord).toBe(474);
+            expect(parsed.header.languageDriver).toBeUndefined();
+            expect(parsed.fields.length).toBe(9);
+        });
+    });
 });

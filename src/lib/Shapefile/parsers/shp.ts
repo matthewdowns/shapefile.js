@@ -11,15 +11,12 @@ import {
     ShapeRecordBody,
     ShapeRecordHeader,
     ShapeType
-} from "../../../types";
+} from '../../../types';
 
-function shp(buffer: ArrayBuffer): Shape {
-    const header = getHeader(buffer.slice(0, 100));
-    const records = getRecords(buffer.slice(100, buffer.byteLength));
-
+function shp(arrayBuffer: ArrayBuffer): Shape {
     return {
-        header,
-        records
+        header: getHeader(arrayBuffer.slice(0, 100)),
+        records: getRecords(arrayBuffer.slice(100, arrayBuffer.byteLength))
     }
 }
 
@@ -120,8 +117,34 @@ function getRecords(arrayBuffer: ArrayBuffer): ShapeRecord<ShapeType>[] {
                 bp += 32;
                 break;
             }
+            case ShapeType.PolylineZ: {
+                throw new Error();
+            }
+            case ShapeType.PolygonZ: {
+                throw new Error();
+            }
+            case ShapeType.MultiPointZ: {
+                throw new Error();
+            }
+            case ShapeType.PointM: {
+                data = getPoint(arrayBuffer.slice(bp, bp + 24), 'M');
+                bp += 24;
+                break;
+            }
+            case ShapeType.PolylineM: {
+                throw new Error();
+            }
+            case ShapeType.PolygonM: {
+                throw new Error();
+            }
+            case ShapeType.MultiPointM: {
+                throw new Error();
+            }
+            case ShapeType.MultiPatch: {
+                throw new Error();
+            }
             default:
-                throw new Error(type.toString());
+                throw new Error(`Unknown shape type: ${type}`);
         }
 
         records.push({
@@ -147,15 +170,20 @@ function getBoundingBox(arrayBuffer: ArrayBuffer): ShapeBoundingBox {
 }
 
 function getPoint(arrayBuffer: ArrayBuffer): ShapePoint;
-function getPoint(arrayBuffer: ArrayBuffer, as: 'M'): ShapePointZ;
-function getPoint(arrayBuffer: ArrayBuffer, as: 'Z'): ShapePointZ;
-function getPoint(arrayBuffer: ArrayBuffer, as?: 'M' | 'Z'): ShapePoint | ShapePointZ {
+function getPoint(arrayBuffer: ArrayBuffer, type: undefined): ShapePoint;
+function getPoint(arrayBuffer: ArrayBuffer, type: 'M'): ShapePointZ;
+function getPoint(arrayBuffer: ArrayBuffer, type: 'Z'): ShapePointZ;
+function getPoint(arrayBuffer: ArrayBuffer, type?: 'M' | 'Z'): ShapePoint | ShapePointZ {
     const dv = new DataView(arrayBuffer);
     return {
         x: dv.getFloat64(0, true),
         y: dv.getFloat64(8, true),
-        z: as === 'Z' ? dv.getFloat64(16, true) : undefined,
-        measure: as === 'M' ? dv.getFloat64(16, true) : as === 'Z' ? dv.getFloat64(24, true) : undefined
+        z: type === 'Z' ? dv.getFloat64(16, true) : undefined,
+        measure: type === 'M'
+            ? dv.getFloat64(16, true)
+            : type === 'Z'
+                ? dv.getFloat64(24, true)
+                : undefined
     }
 }
 
