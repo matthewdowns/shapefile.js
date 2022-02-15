@@ -75,7 +75,7 @@ describe('Shapefile', () => {
         });
 
         test('dbf', () => {
-            const parsed = USA_adm1.parse('dbf', 'UTC', false);
+            const parsed = USA_adm1.parse('dbf', 'UTC', true);
             expect(parsed.header.version).toBe(3);
             expect(parsed.header.lastUpdated.toISOString()).toBe(moment.utc('2015-08-11 00:00:00').toISOString());
             expect(parsed.header.numberOfRecords).toBe(52);

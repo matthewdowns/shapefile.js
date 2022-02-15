@@ -71,33 +71,36 @@ function getFields(array: Uint8Array, version: DbaseVersion, properties: boolean
     bp += 1;
 
     if (properties) {
-        for (let i = 0; i < fields.length; i++) {
-            const field = fields[i];
-            const valueRaw = Buffer.from(array.slice(bp, bp + field.length)).toString('utf-8').trim();
-            let value: any;
-            switch (field.type) {
-                case 'C':
-                    value = valueRaw;
-                    break;
-                case 'F':
-                    value = parseFloat(valueRaw);
-                    break;
-                case 'L': {
-                    value =
-                        (['Y', 'y', 'T', 't'].includes(valueRaw)) ? true :
-                        (['N', 'n', 'F', 'f'].includes(valueRaw)) ? false :
-                        null;
-                    break;
+        do {
+            let row = 0;
+            for (let i = 0; i < fields.length; i++) {
+                const field = fields[i];
+                const valueRaw = Buffer.from(array.slice(bp, bp + field.length)).toString('utf-8').trim();
+                let value: any;
+                switch (field.type) {
+                    case 'C':
+                        value = valueRaw;
+                        break;
+                    case 'F':
+                        value = parseFloat(valueRaw);
+                        break;
+                    case 'L': {
+                        value =
+                            (['Y', 'y', 'T', 't'].includes(valueRaw)) ? true :
+                                (['N', 'n', 'F', 'f'].includes(valueRaw)) ? false :
+                                    null;
+                        break;
+                    }
+                    case 'M':
+                        value = valueRaw;
+                        break;
+                    case 'N':
+                        value = parseFloat(valueRaw);
                 }
-                case 'M':
-                    value = valueRaw;
-                    break;
-                case 'N':
-                    value = parseFloat(valueRaw);
+                bp += field.length;
+                fields[row++].properties!.push(value);
             }
-            bp += field.length;
-            console.log([field, valueRaw, value])
-        }
+        } while (bp < array.byteLength);
     }
 
     return fields;
@@ -117,7 +120,7 @@ function getField(arrayBuffer: ArrayBuffer, version: DbaseVersion, properties: b
                 type,
                 length,
                 decimals,
-                properties: undefined
+                properties: properties ? [] : undefined
             };
             return field;
         }
@@ -133,7 +136,7 @@ function getField(arrayBuffer: ArrayBuffer, version: DbaseVersion, properties: b
                 length,
                 decimals,
                 autoincrement,
-                properties: undefined
+                properties: properties ? [] : undefined
             };
             return field;
         }
