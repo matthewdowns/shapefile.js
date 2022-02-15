@@ -7,7 +7,12 @@ import {
     DbaseVersion
 } from '../../../types';
 
-function dbf(arrayBuffer: ArrayBuffer, timezone = 'UTC', properties: boolean): Dbase<DbaseVersion, typeof properties> {
+export type DbfOptions = {
+    timezone: string;
+    properties: boolean;
+}
+
+function dbf(arrayBuffer: ArrayBuffer, options: DbfOptions): Dbase<DbaseVersion, typeof options.properties> {
     const array = new Uint8Array(arrayBuffer);
     const dv = new DataView(arrayBuffer);
 
@@ -15,7 +20,7 @@ function dbf(arrayBuffer: ArrayBuffer, timezone = 'UTC', properties: boolean): D
     const year = 1900 + array[1];
     const month = array[2];
     const date = array[3];
-    const lastUpdated = moment.tz(`${year}-${month}-${date}`, 'YYYY-MM-DD', timezone).toDate();
+    const lastUpdated = moment.tz(`${year}-${month}-${date}`, 'YYYY-MM-DD', options.timezone).toDate();
     const numberOfRecords = dv.getUint32(4, true);
     const numberOfBytesInHeader = dv.getUint16(8, true);
     const numberOfBytesInRecord = dv.getUint16(10, true);
@@ -37,8 +42,7 @@ function dbf(arrayBuffer: ArrayBuffer, timezone = 'UTC', properties: boolean): D
             ? 32 : 68,
             arrayBuffer.byteLength)),
         header.version,
-        properties,
-        timezone);
+        options);
 
     return {
         header,
@@ -46,7 +50,7 @@ function dbf(arrayBuffer: ArrayBuffer, timezone = 'UTC', properties: boolean): D
     };
 }
 
-function getFields(array: Uint8Array, version: DbaseVersion, properties: boolean, timezone: string): DbaseField<typeof version, typeof properties>[] {
+function getFields(array: Uint8Array, version: DbaseVersion, options: DbfOptions): DbaseField<typeof version, typeof options.properties>[] {
     let size: number;
     switch (version) {
         case DbaseVersion.Level5:
@@ -57,20 +61,20 @@ function getFields(array: Uint8Array, version: DbaseVersion, properties: boolean
             break;
     }
 
-    const fields: DbaseField<typeof version, typeof properties>[] = [];
+    const fields: DbaseField<typeof version, typeof options.properties>[] = [];
     let bp = 0;
     let terminated = false;
     do {
         const terminator = array[bp];
         if (terminator === 0x0D) terminated = true;
         else {
-            fields.push(getField(array.slice(bp, bp + size), version, properties));
+            fields.push(getField(array.slice(bp, bp + size), version, options.properties));
             bp += size;
         }
     } while (!terminated);
     bp += 1;
 
-    if (properties) {
+    if (options.properties) {
         do {
             let row = 0;
             for (let i = 0; i < fields.length; i++) {
