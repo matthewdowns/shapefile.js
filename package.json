@@ -9,7 +9,8 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "tsc -p .",
-    "test": "semistandard && jest"
+    "test": "semistandard && jest",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
