@@ -14,6 +14,7 @@ module.exports = {
   output: {
     dir: distPath,
     format: 'commonjs',
+    exports: 'named',
     sourcemap: true
   },
   plugins: [
