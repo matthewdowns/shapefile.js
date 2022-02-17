@@ -6,9 +6,12 @@ import {
 } from '../../types';
 import * as parsers from './parsers';
 import { DbfOptions } from './parsers/dbf';
+import { load } from './Shapefile.functions';
 import { ShapefileContents } from './Shapefile.types';
 
 class Shapefile {
+    public static load = load;
+
     public readonly contents: ShapefileContents;
 
     constructor(contents: ShapefileContents) {

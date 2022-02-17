@@ -13,7 +13,7 @@ module.exports = {
   input,
   output: {
     dir: distPath,
-    format: 'commonjs',
+    format: 'cjs',
     exports: 'named',
     sourcemap: true
   },
