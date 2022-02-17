@@ -57,9 +57,9 @@ function App() {
 
 You can parse each file in the ShapeFile ZIP. Some files require additional arguments.
 ```tsx
-const parsedShp = await shapefile.parse('shp');
-const parsedShx = await shapefile.parse('shx');
-const parsedDbf = await shapefile.parse('dbf', {
+const parsedShp = shapefile.parse('shp');
+const parsedShx = shapefile.parse('shx');
+const parsedDbf = shapefile.parse('dbf', {
     // the expected timezone that dates are stored as in the .dbf file
     timezone: 'UTC',
     // stop parsing the file when the byte position hits the field descriptors
