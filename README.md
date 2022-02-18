@@ -10,7 +10,7 @@
 
 ## Introduction
 
-Easily read and parse ShapeFiles from the browser. Shapefile.js allows you to load a .zip as a buffer,
+Easily read and parse Shapefiles from the browser. Shapefile.js allows you to load a .zip as a buffer,
 and parse each file individually.
 
 > ### [What is a Shapefile?](https://en.wikipedia.org/wiki/Shapefile)
@@ -55,7 +55,7 @@ function App() {
 }
 ```
 
-You can parse each file in the ShapeFile ZIP. Some files require additional arguments.
+You can parse each file in the Shapefile ZIP. Some files require additional arguments.
 ```tsx
 const parsedShp = shapefile.parse('shp');
 const parsedShx = shapefile.parse('shx');
