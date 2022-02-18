@@ -7,7 +7,10 @@ const srcPath = path.resolve(__dirname, './src');
 const distPath = path.resolve(__dirname, './dist');
 
 const input = path.join(srcPath, 'index.ts');
-const external = Object.keys(dependencies);
+const external = [
+  'path',
+  ...Object.keys(dependencies)
+];
 
 module.exports = {
   input,

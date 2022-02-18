@@ -3,7 +3,6 @@ import moment from 'moment';
 import { join, resolve } from 'path';
 import { ShapePolygon } from '../../types';
 import Shapefile from './Shapefile';
-import { load } from './Shapefile.functions';
 
 const testsDir = resolve(__dirname, '../../../tests');
 const USA_adm = readFileSync(join(testsDir, 'USA_adm.zip'));
@@ -12,7 +11,7 @@ describe('Shapefile', () => {
     let USA_adm1: Shapefile;
 
     test('load', async () => {
-        USA_adm1 = (await load(USA_adm, true))['USA_adm1'];
+        USA_adm1 = (await Shapefile.load(USA_adm, true))['USA_adm1'];
         expect(USA_adm1).toBeDefined();
         expect(USA_adm1.contents.shp).toBeDefined();
         expect(USA_adm1.contents.shx).toBeDefined();
