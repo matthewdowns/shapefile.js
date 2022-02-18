@@ -2,6 +2,16 @@
   "name": "shapefile.js",
   "version": "0.3.3",
   "description": "Easily read and parse ShapeFiles from the browser.",
+  "keywords": [
+    "shapefiles",
+    "shapefile",
+    "shape",
+    "dbase",
+    "shp",
+    "shx",
+    "dbf",
+    "esri"
+  ],
   "main": "dist/index.js",
   "files": [
     "dist/**/*"
