@@ -37,23 +37,24 @@ import React, { useState } from 'react';
 import Shapefile from 'shapefile.js';
 
 function App() {
-    const [shapefile, setShapefile] = useState<Shapefile>();
-    
-    return (
-        <div>
-            <input type="file" onChange={async e => {
-                const arrayBuffer = await 
+  const [shapefile, setShapefile] = useState<Shapefile>();
+
+  return (
+    <div>
+      <input type="file" onChange={async e => {
+        const arrayBuffer = await
                 if (e.target.files.length > 0) {
-                    e.target.files[0].arrayBuffer().then(arrayBuffer => {
-                        // Load the .zip shapefile to expose its contents
-                        Shapefile.load(arrayBuffer).then(_shapefile => {
-                            setShapefile(_shapefile)
-                        })
-                    })
-                }
-            }}>
-        </div>
-    );
+          e.target.files[0].arrayBuffer().then(arrayBuffer => {
+            // Load the .zip shapefile to expose its contents
+            Shapefile.load(arrayBuffer).then(_shapefile => {
+
+              setShapefile(_shapefile)
+            })
+          })
+        }
+      }}>
+    </div>
+  )
 }
 ```
 
@@ -62,12 +63,12 @@ You can parse each file in the Shapefile ZIP. Some files require additional argu
 const parsedShp = shapefile.parse('shp');
 const parsedShx = shapefile.parse('shx');
 const parsedDbf = shapefile.parse('dbf', {
-    // the expected timezone that dates are stored as in the .dbf file
-    timezone: 'UTC',
-    // stop parsing the file when the byte position hits the field descriptors
-    // terminator this allows you to quickly get the fields used in the .dbf
-    // file and ignore the remainder of the file
-    properties: false
+  // the expected timezone that dates are stored as in the .dbf file
+  timezone: 'UTC',
+  // stop parsing the file when the byte position hits the field descriptors
+  // terminator this allows you to quickly get the fields used in the .dbf
+  // file and ignore the remainder of the file
+  properties: false
 });
 ```
 
