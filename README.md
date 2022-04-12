@@ -34,20 +34,22 @@ npm install --save shapefile.js
 Import the `Shapefile` class and load a shapefile (using React as an example)
 ```tsx
 import React, { useState } from 'react';
-import { Shapefile } from 'shapefile.js';
+import Shapefile from 'shapefile.js';
 
 function App() {
     const [shapefile, setShapefile] = useState<Shapefile>();
     
     return (
         <div>
-            <input type="file" onChange={e => {
+            <input type="file" onChange={async e => {
+                const arrayBuffer = await 
                 if (e.target.files.length > 0) {
-                    e.target.files[0].arrayBuffer().then(fileArrayBuffer => {
-                        Shapefile.load(fileArrayBuffer).then(_shapefile => {
-                            setShapefile(_shapefile);
-                        });
-                    });
+                    e.target.files[0].arrayBuffer().then(arrayBuffer => {
+                        // Load the .zip shapefile to expose its contents
+                        Shapefile.load(arrayBuffer).then(_shapefile => {
+                            setShapefile(_shapefile)
+                        })
+                    })
                 }
             }}>
         </div>
