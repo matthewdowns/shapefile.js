@@ -1,8 +1,8 @@
-type ShapePointZ = {
-    x: number;
-    y: number;
-    z: number;
-    measure: number;
+interface ShapePointZ {
+  x: number
+  y: number
+  z: number
+  measure: number
 }
 
-export default ShapePointZ;
+export default ShapePointZ

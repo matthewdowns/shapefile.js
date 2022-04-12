@@ -1,6 +1,6 @@
-type ShapeIndexRecord = {
-    offset: number;
-    length: number;
+interface ShapeIndexRecord {
+  offset: number
+  length: number
 }
 
-export default ShapeIndexRecord;
+export default ShapeIndexRecord

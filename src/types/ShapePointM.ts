@@ -1,7 +1,7 @@
-type ShapePointM = {
-    x: number;
-    y: number;
-    measure: number;
+interface ShapePointM {
+  x: number
+  y: number
+  measure: number
 }
 
-export default ShapePointM;
+export default ShapePointM

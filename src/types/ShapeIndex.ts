@@ -1,9 +1,9 @@
-import ShapeHeader from './ShapeHeader';
-import ShapeIndexRecord from './ShapeIndexRecord';
+import ShapeHeader from './ShapeHeader'
+import ShapeIndexRecord from './ShapeIndexRecord'
 
-type ShapeIndex = {
-    header: ShapeHeader;
-    records: ShapeIndexRecord[];
+interface ShapeIndex {
+  header: ShapeHeader
+  records: ShapeIndexRecord[]
 }
 
-export default ShapeIndex;
+export default ShapeIndex

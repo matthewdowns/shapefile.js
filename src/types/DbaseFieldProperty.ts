@@ -1,7 +1,7 @@
-import { DbaseVersion } from './enums';
+import { DbaseVersion } from './enums'
 
-type DbaseFieldProperty<TType extends 'C' | 'D' | 'N' | 'L' | 'M' | never = never> = {
-    
+interface DbaseFieldProperty<TType extends 'C' | 'D' | 'N' | 'L' | 'M'> {
+
 }
 
-export default DbaseFieldProperty;
+export default DbaseFieldProperty

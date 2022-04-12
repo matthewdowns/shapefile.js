@@ -1,10 +1,10 @@
 # shapefile.js
 
 [![Libraries.io dependency status for latest release](https://img.shields.io/librariesio/release/npm/shapefile.js)](https://img.shields.io/librariesio/release/npm/shapefile.js)
-[![JavaScript Style Guide](https://img.shields.io/badge/code_style-semistandard-brightgreen.svg)](https://standardjs.com)
 [![CodeQL](https://github.com/matthewdowns/shapefile.js/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/matthewdowns/shapefile.js/actions/workflows/codeql-analysis.yml)
 [![Node.js CI](https://github.com/matthewdowns/shapefile.js/actions/workflows/node.js.yml/badge.svg)](https://github.com/matthewdowns/shapefile.js/actions/workflows/node.js.yml)
 
+[![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)
 
 
 
@@ -26,7 +26,7 @@ and parse each file individually.
 
 ## Usage
 
-Install the package into your app
+Install the package into your application
 ```bash
 npm install --save shapefile.js
 ```

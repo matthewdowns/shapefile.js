@@ -1,6 +1,6 @@
-type ShapeRecordHeader = {
-    number: number;
-    length: number;
+interface ShapeRecordHeader {
+  number: number
+  length: number
 }
 
-export default ShapeRecordHeader;
+export default ShapeRecordHeader

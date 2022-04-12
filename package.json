@@ -19,7 +19,7 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "rollup -c",
-    "lint": "standard",
+    "lint": "ts-standard",
     "test": "jest"
   },
   "repository": {

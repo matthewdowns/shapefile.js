@@ -1,8 +1,8 @@
-type ShapeBoundingBox = {
-    minX: number;
-    minY: number;
-    maxX: number;
-    maxY: number;
+interface ShapeBoundingBox {
+  minX: number
+  minY: number
+  maxX: number
+  maxY: number
 }
 
-export default ShapeBoundingBox;
+export default ShapeBoundingBox

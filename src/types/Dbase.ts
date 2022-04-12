@@ -1,10 +1,10 @@
-import { DbaseVersion } from './enums';
-import DbaseField from './DbaseField';
-import DbaseHeader from './DbaseHeader';
+import { DbaseVersion } from './enums'
+import DbaseField from './DbaseField'
+import DbaseHeader from './DbaseHeader'
 
-type Dbase<TVersion extends DbaseVersion, TProperties extends boolean> = {
-    header: DbaseHeader<TVersion>;
-    fields: DbaseField<TVersion, TProperties>[];
+interface Dbase<TVersion extends DbaseVersion, TProperties extends boolean> {
+  header: DbaseHeader<TVersion>
+  fields: Array<DbaseField<TVersion, TProperties>>
 }
 
-export default Dbase;
+export default Dbase

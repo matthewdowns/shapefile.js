@@ -1,10 +1,10 @@
-import ShapeBoundingBox from './ShapeBoundingBox';
-import ShapePoint from './ShapePoint';
+import ShapeBoundingBox from './ShapeBoundingBox'
+import ShapePoint from './ShapePoint'
 
-type ShapeMultiPoint = {
-    boundingBox: ShapeBoundingBox;
-    numberOfPoints: number;
-    points: ShapePoint[];
+interface ShapeMultiPoint {
+  boundingBox: ShapeBoundingBox
+  numberOfPoints: number
+  points: ShapePoint[]
 }
 
-export default ShapeMultiPoint;
+export default ShapeMultiPoint

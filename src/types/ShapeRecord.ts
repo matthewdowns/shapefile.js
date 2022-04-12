@@ -1,10 +1,10 @@
-import { ShapeType } from './enums';
-import ShapeRecordBody from './ShapeRecordBody';
-import ShapeRecordHeader from './ShapeRecordHeader';
+import { ShapeType } from './enums'
+import ShapeRecordBody from './ShapeRecordBody'
+import ShapeRecordHeader from './ShapeRecordHeader'
 
-type ShapeRecord<TType extends ShapeType> = {
-    header: ShapeRecordHeader;
-    body: ShapeRecordBody<TType>;
+interface ShapeRecord<TType extends ShapeType> {
+  header: ShapeRecordHeader
+  body: ShapeRecordBody<TType>
 }
 
-export default ShapeRecord;
+export default ShapeRecord

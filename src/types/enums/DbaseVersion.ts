@@ -1,6 +1,6 @@
 enum DbaseVersion {
-    Level5 = 3,
-    Level7 = 4
+  Level5 = 3,
+  Level7 = 4
 }
 
-export default DbaseVersion;
+export default DbaseVersion

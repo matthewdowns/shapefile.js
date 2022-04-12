@@ -1,21 +1,21 @@
-import ShapeBoundingBox from './ShapeBoundingBox';
+import ShapeBoundingBox from './ShapeBoundingBox'
 
-type ShapePolygon = {
-    boundingBox: ShapeBoundingBox;
+interface ShapePolygon {
+  boundingBox: ShapeBoundingBox
 
-    /**
+  /**
      * The number of rings in the polygon
      */
-    numberOfParts: number;
+  numberOfParts: number
 
-    /**
+  /**
      * The total number of points for all rings
      */
-    numberOfPoints: number;
+  numberOfPoints: number
 
-    parts: number[];
+  parts: number[]
 
-    points: number[];
+  points: number[]
 }
 
-export default ShapePolygon;
+export default ShapePolygon

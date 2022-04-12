@@ -1,10 +1,10 @@
-import { ShapeType } from './enums';
-import ShapeHeader from './ShapeHeader';
-import ShapeRecord from './ShapeRecord';
+import { ShapeType } from './enums'
+import ShapeHeader from './ShapeHeader'
+import ShapeRecord from './ShapeRecord'
 
-type Shape = {
-    header: ShapeHeader;
-    records: ShapeRecord<ShapeType>[];
+interface Shape {
+  header: ShapeHeader
+  records: Array<ShapeRecord<ShapeType>>
 }
 
-export default Shape;
+export default Shape

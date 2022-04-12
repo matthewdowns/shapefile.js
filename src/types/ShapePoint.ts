@@ -1,6 +1,6 @@
-type ShapePoint = {
-    x: number;
-    y: number;
+interface ShapePoint {
+  x: number
+  y: number
 }
 
-export default ShapePoint;
+export default ShapePoint
