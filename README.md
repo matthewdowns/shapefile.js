@@ -42,12 +42,12 @@ function App() {
   return (
     <div>
       <input type="file" onChange={async e => {
-        const arrayBuffer = await
-                if (e.target.files.length > 0) {
+        if (e.target.files.length > 0) {
+          // Get the array buffer of the uploaded file
           e.target.files[0].arrayBuffer().then(arrayBuffer => {
             // Load the .zip shapefile to expose its contents
             Shapefile.load(arrayBuffer).then(_shapefile => {
-
+              // Set shapefile state
               setShapefile(_shapefile)
             })
           })
@@ -63,11 +63,11 @@ You can parse each file in the Shapefile ZIP. Some files require additional argu
 const parsedShp = shapefile.parse('shp');
 const parsedShx = shapefile.parse('shx');
 const parsedDbf = shapefile.parse('dbf', {
-  // the expected timezone that dates are stored as in the .dbf file
+  // The expected timezone that dates are stored as in the .dbf file
   timezone: 'UTC',
-  // stop parsing the file when the byte position hits the field descriptors
-  // terminator this allows you to quickly get the fields used in the .dbf
-  // file and ignore the remainder of the file
+  
+  // Stop parsing the file when the byte position hits the field descriptors terminator
+  // This allows you to quickly get the fields used in the .dbf file and ignore the remainder of the file
   properties: false
 });
 ```
