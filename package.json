@@ -1,6 +1,6 @@
 {
   "name": "shapefile.js",
-  "version": "0.3.6",
+  "version": "1.0.0",
   "description": "Easily read and parse Shapefiles from the browser.",
   "keywords": [
     "shapefiles",
