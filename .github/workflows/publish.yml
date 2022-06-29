@@ -18,8 +18,8 @@ jobs:
       - name: Use Node.js 16.x
         uses: actions/setup-node@v3.3.0
         with:
-          always-auth: true
           node-version: 16.x
+          registry-url: https://registry.npmjs.org/
       - name: Install dependencies
         run: npm install
       - name: Build project
