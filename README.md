@@ -26,12 +26,65 @@ and parse each file individually.
 
 ## Usage
 
+### React
+
 Install the package into your application
 ```bash
 npm install --save shapefile.js
 ```
 
-Use the `ShapefileJS` UMD global variable and load a shapefile whenever the file input changes
+Import the `Shapefile` class from `shapefile.js`
+```jsx
+import React, { useState } from 'react'
+import { Shapefile } from 'shapefile.js'
+
+function ShapefileImporter() {
+  const [shapefile, setShapefile] = useState()
+
+  return (
+    <input
+      type="file"
+      onChange={e => {
+        if (e.target.files.length > 0) {
+          e.target.files[0].arrayBuffer().then(arrayBuffer => {
+            // Load the .zip file to expose its contents
+            Shapefile.load(arrayBuffer).then(_shapefile => {
+              // Set shapefile state
+              setShapefile(_shapefile)
+            })
+          })
+        }
+      }}
+    />
+  )
+}
+
+export default ShapefileImporter
+```
+
+You can parse each file in the Shapefile ZIP. Some files require additional arguments.
+```js
+const shp = shapefile.parse('shp');
+const shx = shapefile.parse('shx');
+const dbf = shapefile.parse('dbf', {
+  // The expected timezone that dates are stored as in the .dbf file
+  timezone: 'UTC',
+
+  // Stop parsing the file when the byte position hits the field descriptors terminator
+  // This allows you to quickly get the fields used in the .dbf file and ignore the remainder of the file
+  properties: false
+})
+```
+
+### UMD
+
+Add a script tag to your HTML file with your desired shapefile.js version from a CDN provider
+- UNPKG: https://unpkg.com/shapefile.js/dist/shapefile.js
+- jsDelivr: https://cdn.jsdelivr.net/npm/shapefile.js/dist/shapefile.js
+
+_You can use the minified version by simply replacing the ending **.js** extension with **.min.js**_
+
+Use the `ShapefileJS` UMD global variable and access the `Shapefile` class
 ```html
 <!DOCTYPE html>
 <html>
@@ -39,7 +92,7 @@ Use the `ShapefileJS` UMD global variable and load a shapefile whenever the file
     <meta charset="utf-8">
 
     <!-- Load the shapefile.js library -->
-    <script src="https://unpkg.com/browse/shapefile.js/dist/index.js"></script>
+    <script src="https://unpkg.com/shapefile.js/dist/shapefile.js"></script>
 
     <!-- Add custom JS logic -->
     <script>
@@ -47,9 +100,9 @@ Use the `ShapefileJS` UMD global variable and load a shapefile whenever the file
         const shapefileInput = document.getElementById('shapefile-input')
         shapefileInput.addEventListener('change', () => {
           if (shapefileInput.files.length > 0) {
-            e.target.files[0].arrayBuffer().then(arrayBuffer => {
+            shapefileInput.files[0].arrayBuffer().then(arrayBuffer => {
               // Load the .zip file to expose its contents
-              ShapefileJS.load(arrayBuffer).then(shapefile => {
+              ShapefileJS.Shapefile.load(arrayBuffer).then(shapefile => {
                 console.log(shapefile.contents)
               })
             })
@@ -63,20 +116,6 @@ Use the `ShapefileJS` UMD global variable and load a shapefile whenever the file
       <input id="shapefile-input" type="file" />
     </div>
   </body>
-```
-
-You can parse each file in the Shapefile ZIP. Some files require additional arguments.
-```tsx
-const shp = shapefile.parse('shp');
-const shx = shapefile.parse('shx');
-const dbf = shapefile.parse('dbf', {
-  // The expected timezone that dates are stored as in the .dbf file
-  timezone: 'UTC',
-
-  // Stop parsing the file when the byte position hits the field descriptors terminator
-  // This allows you to quickly get the fields used in the .dbf file and ignore the remainder of the file
-  properties: false
-});
 ```
 
 

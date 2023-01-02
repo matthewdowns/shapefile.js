@@ -1,5 +1,5 @@
 import { readFileSync } from 'fs'
-import moment from 'moment'
+import moment from 'moment-timezone'
 import { join, resolve } from 'path'
 import { DbaseVersion, ShapePolygon } from '../../types'
 import Shapefile from './Shapefile'
