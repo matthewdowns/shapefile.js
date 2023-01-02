@@ -1,28 +1,72 @@
 const commonjs = require('@rollup/plugin-commonjs')
 const typescript = require('@rollup/plugin-typescript')
-const path = require('path')
+const { terser } = require('rollup-plugin-terser')
+const { resolve } = require('path')
 const { dependencies } = require('./package.json')
 
-const srcPath = path.resolve(__dirname, './src')
-const distPath = path.resolve(__dirname, './dist')
+const input = resolve(__dirname, './src/index.ts')
+const globals = {
+  'jszip': 'JSZip',
+  'moment': 'moment',
+  'moment-timezone': 'moment',
+  'path': 'path'
+}
+const external = Object.keys(dependencies)
 
-const input = path.join(srcPath, 'index.ts')
-const external = [
-  'path',
-  ...Object.keys(dependencies)
-]
-
-module.exports = {
+const development = {
   input,
-  output: {
-    dir: distPath,
-    format: 'cjs',
-    exports: 'named',
-    sourcemap: true
-  },
+  output: [
+    {
+      dir: resolve(__dirname, `./dist`),
+      format: 'cjs',
+      exports: 'named',
+      sourcemap: true
+    },
+    {
+      file: resolve(__dirname, `./dist/shapefile.js`),
+      format: 'umd',
+      name: 'shapefile',
+      globals,
+      sourcemap: true
+    }
+  ],
   plugins: [
-    typescript(),
+    typescript({
+      declaration: true,
+      declarationMap: true,
+      removeComments: false,
+      sourceMap: true
+    }),
     commonjs()
   ],
   external
 }
+
+const production = {
+  input,
+  output: [
+    {
+      file: resolve(__dirname, `./dist/shapefile.min.js`),
+      format: 'umd',
+      name: 'shapefile',
+      globals,
+      sourcemap: false
+    }
+  ],
+  plugins: [
+    typescript({
+      declaration: false,
+      declarationMap: false,
+      removeComments: true,
+      sourceMap: false
+    }),
+    commonjs(),
+    terser()
+  ],
+  external
+}
+
+module.exports = [
+  development,
+  production
+]
