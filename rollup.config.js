@@ -1,4 +1,5 @@
 const commonjs = require('@rollup/plugin-commonjs')
+const nodeResolve = require('@rollup/plugin-node-resolve')
 const typescript = require('@rollup/plugin-typescript')
 const { terser } = require('rollup-plugin-terser')
 const { resolve } = require('path')
@@ -17,15 +18,13 @@ const development = {
     {
       dir: resolve(__dirname, `./dist`),
       format: 'cjs',
-      exports: 'named',
       sourcemap: true
     },
     {
       file: resolve(__dirname, `./dist/shapefile.js`),
       format: 'umd',
       name: 'ShapefileJS',
-      sourcemap: true,
-      globals
+      sourcemap: true
     }
   ],
   plugins: [
@@ -35,9 +34,9 @@ const development = {
       removeComments: false,
       sourceMap: true
     }),
+    nodeResolve({ browser: true }),
     commonjs()
-  ],
-  external
+  ]
 }
 
 const production = {
@@ -47,8 +46,7 @@ const production = {
       file: resolve(__dirname, `./dist/shapefile.min.js`),
       format: 'umd',
       name: 'ShapefileJS',
-      sourcemap: false,
-      globals
+      sourcemap: false
     }
   ],
   plugins: [
@@ -58,10 +56,10 @@ const production = {
       removeComments: true,
       sourceMap: false
     }),
+    nodeResolve({ browser: true }),
     commonjs(),
     terser()
-  ],
-  external
+  ]
 }
 
 module.exports = [

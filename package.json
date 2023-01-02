@@ -33,14 +33,14 @@
   },
   "homepage": "https://github.com/matthewdowns/shapefile.js#readme",
   "dependencies": {
-    "jszip": "^3.7.1",
-    "moment-timezone": "^0.5.34"
+    "jszip": "^3.7.1"
   },
   "devDependencies": {
     "@babel/core": "^7.17.5",
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-typescript": "^7.16.7",
     "@rollup/plugin-commonjs": "^22.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.1",
     "@rollup/plugin-typescript": "^10.0.1",
     "@types/jest": "^29.2.5",
     "babel-jest": "^29.3.1",

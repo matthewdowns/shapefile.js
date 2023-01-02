@@ -1,5 +1,4 @@
 import { readFileSync } from 'fs'
-import moment from 'moment-timezone'
 import { join, resolve } from 'path'
 import { DbaseVersion, ShapePolygon } from '../../types'
 import Shapefile from './Shapefile'
@@ -80,9 +79,10 @@ describe('Shapefile', () => {
     })
 
     test('dbf', () => {
-      const dbf = USA_adm1.parse('dbf', { timezone: 'UTC', properties: true })
+      const dbf = USA_adm1.parse('dbf', { timezone: 'Europe/Oslo', properties: true })
       expect(dbf.header.version).toBe(DbaseVersion.Level5) // 3
-      expect(dbf.header.lastUpdated.toISOString()).toBe(moment.utc('2015-08-11 00:00:00').toISOString())
+      console.log(dbf.header.lastUpdated)
+      expect(dbf.header.lastUpdated.toISOString()).toBe('2015-08-11T00:00:00.000Z')
       expect(dbf.header.numberOfRecords).toBe(52)
       expect(dbf.header.numberOfBytesInHeader).toBe(321)
       expect(dbf.header.numberOfBytesInRecord).toBe(474)

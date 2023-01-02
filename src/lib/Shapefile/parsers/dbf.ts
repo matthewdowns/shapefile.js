@@ -1,4 +1,3 @@
-import moment from 'moment-timezone'
 import {
   Dbase,
   DbaseHeader,
@@ -19,7 +18,8 @@ function dbf(arrayBuffer: ArrayBuffer, options: DbfOptions): Dbase<DbaseVersion,
   const year = 1900 + array[1]
   const month = array[2]
   const date = array[3]
-  const lastUpdated = moment.tz(`${year}-${month}-${date}`, 'YYYY-MM-DD', options.timezone).toDate()
+  const lastUpdatedISO = `${year.toString().padStart(4, '0')}-${month.toString().padStart(2, '0')}-${date.toString().padStart(2, '0')}T00:00:00.000Z`
+  const lastUpdated = new Date(lastUpdatedISO)
   const numberOfRecords = dv.getUint32(4, true)
   const numberOfBytesInHeader = dv.getUint16(8, true)
   const numberOfBytesInRecord = dv.getUint16(10, true)
