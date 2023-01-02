@@ -1,4 +1,4 @@
-import { loadAsync } from 'jszip'
+import JSZip from 'jszip'
 import {
   Dbase,
   DbaseVersion,
@@ -9,9 +9,10 @@ import * as parsers from './parsers'
 import { DbfOptions } from './parsers/dbf'
 import { ShapefileContents } from './Shapefile.types'
 
-class Shapefile {
-  public static load = load
+type JSZipLoadAsyncParamters = Parameters<typeof JSZip.loadAsync>
 
+class Shapefile {
+  protected jszip = new JSZip()
   public readonly contents: ShapefileContents
 
   constructor(contents: ShapefileContents) {
@@ -33,6 +34,8 @@ class Shapefile {
 
     return undefined
   }
+
+  public static load = load
 }
 
 /**
@@ -52,13 +55,9 @@ class Shapefile {
  *     └── agm1.dbf
  * ```
  */
-export async function load(zip: Parameters<typeof loadAsync>[0]): Promise<Record<string, Shapefile>>;
-/**
- * @deprecated The "multiple" parameter will be removed completely in version 1.0.0
- */
-export async function load(zip: Parameters<typeof loadAsync>[0], multiple?: boolean): Promise<Record<string, Shapefile>>;
-export async function load(zip: Parameters<typeof loadAsync>[0]): Promise<Record<string, Shapefile>> {
-  const jszip = await loadAsync(zip)
+export async function load(...params: JSZipLoadAsyncParamters): Promise<Record<string, Shapefile>> {
+  const jszip = new JSZip()
+  await jszip.loadAsync(...params)
 
   const filePaths = Object.keys(jszip.files).filter(path => !jszip.files[path].dir)
   const reducedFilePaths = reducePaths(filePaths)

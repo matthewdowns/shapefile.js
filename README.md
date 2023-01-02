@@ -84,6 +84,8 @@ Add a script tag to your HTML file with your desired shapefile.js version from a
 
 _You can use the minified version by simply replacing the ending **.js** extension with **.min.js**_
 
+You will also need shims for [JSZip](https://github.com/Stuk/jszip) and [Moment Timezone](https://github.com/moment/moment-timezone)
+
 Use the `ShapefileJS` UMD global variable and access the `Shapefile` class
 ```html
 <!DOCTYPE html>
@@ -92,6 +94,8 @@ Use the `ShapefileJS` UMD global variable and access the `Shapefile` class
     <meta charset="utf-8">
 
     <!-- Load the shapefile.js library -->
+    <script src="https://unpkg.com/jszip/dist/jszip.min.js"></script>
+    <script src="https://unpkg.com/moment-timezone/moment-timezone.js"></script>
     <script src="https://unpkg.com/shapefile.js/dist/shapefile.js"></script>
 
     <!-- Add custom JS logic -->
