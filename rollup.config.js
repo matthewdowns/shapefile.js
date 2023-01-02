@@ -6,6 +6,10 @@ const { dependencies } = require('./package.json')
 
 const input = resolve(__dirname, './src/index.ts')
 const external = Object.keys(dependencies)
+const globals = {
+  'jszip': 'JSZip',
+  'moment-timezone': 'moment'
+}
 
 const development = {
   input,
@@ -20,7 +24,8 @@ const development = {
       file: resolve(__dirname, `./dist/shapefile.js`),
       format: 'umd',
       name: 'ShapefileJS',
-      sourcemap: true
+      sourcemap: true,
+      globals
     }
   ],
   plugins: [
@@ -42,7 +47,8 @@ const production = {
       file: resolve(__dirname, `./dist/shapefile.min.js`),
       format: 'umd',
       name: 'ShapefileJS',
-      sourcemap: false
+      sourcemap: false,
+      globals
     }
   ],
   plugins: [
