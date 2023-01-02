@@ -81,8 +81,6 @@ Add a script tag to your HTML file with your desired shapefile.js version from a
 
 _You can use the minified version by simply replacing the ending **.js** extension with **.min.js**_
 
-You will also need a shim for [JSZip](https://github.com/Stuk/jszip)
-
 Use the `ShapefileJS` UMD global variable and access the `Shapefile` class
 ```html
 <!DOCTYPE html>
@@ -90,8 +88,7 @@ Use the `ShapefileJS` UMD global variable and access the `Shapefile` class
   <head>
     <meta charset="utf-8">
 
-    <!-- Load JSZip and shapefile.js libraries -->
-    <script src="https://unpkg.com/jszip/dist/jszip.min.js"></script>
+    <!-- Load shapefile.js library -->
     <script src="https://unpkg.com/shapefile.js/dist/shapefile.js"></script>
 
     <!-- Add custom JS logic -->
