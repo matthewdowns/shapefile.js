@@ -67,9 +67,6 @@ You can parse each file in the Shapefile ZIP. Some files require additional argu
 const shp = shapefile.parse('shp');
 const shx = shapefile.parse('shx');
 const dbf = shapefile.parse('dbf', {
-  // The expected timezone that dates are stored as in the .dbf file
-  timezone: 'UTC',
-
   // Stop parsing the file when the byte position hits the field descriptors terminator
   // This allows you to quickly get the fields used in the .dbf file and ignore the remainder of the file
   properties: false
