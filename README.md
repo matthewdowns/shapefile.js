@@ -39,7 +39,7 @@ Use the `ShapefileJS` UMD global variable and load a shapefile whenever the file
     <meta charset="utf-8">
 
     <!-- Load the shapefile.js library -->
-    <script src="https://unpkg.com/browse/shapefile.js@1.0.0/dist/index.js"></script>
+    <script src="https://unpkg.com/browse/shapefile.js/dist/index.js"></script>
 
     <!-- Add custom JS logic -->
     <script>
