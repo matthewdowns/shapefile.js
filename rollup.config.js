@@ -25,7 +25,7 @@ const development = {
     {
       file: resolve(__dirname, `./dist/shapefile.js`),
       format: 'umd',
-      name: 'shapefile',
+      name: 'ShapefileJS',
       globals,
       sourcemap: true
     }
@@ -48,7 +48,7 @@ const production = {
     {
       file: resolve(__dirname, `./dist/shapefile.min.js`),
       format: 'umd',
-      name: 'shapefile',
+      name: 'ShapefileJS',
       globals,
       sourcemap: false
     }
