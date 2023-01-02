@@ -34,7 +34,6 @@
   "homepage": "https://github.com/matthewdowns/shapefile.js#readme",
   "dependencies": {
     "jszip": "^3.7.1",
-    "moment": "^2.29.1",
     "moment-timezone": "^0.5.34"
   },
   "devDependencies": {
