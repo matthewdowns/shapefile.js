@@ -81,7 +81,6 @@ describe('Shapefile', () => {
     test('dbf', () => {
       const dbf = USA_adm1.parse('dbf', { properties: true })
       expect(dbf.header.version).toBe(DbaseVersion.Level5) // 3
-      console.log(dbf.header.lastUpdated)
       expect(dbf.header.lastUpdated.toISOString()).toBe('2015-08-11T00:00:00.000Z')
       expect(dbf.header.numberOfRecords).toBe(52)
       expect(dbf.header.numberOfBytesInHeader).toBe(321)

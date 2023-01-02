@@ -29,7 +29,7 @@ class Shapefile {
       case 'shx':
         return parsers.shx(this.contents.shx.buffer)
       case 'dbf':
-        return parsers.dbf(this.contents.dbf.buffer, ...args)
+        return parsers.dbf(this.contents.dbf.buffer, args[0])
     }
 
     return undefined
