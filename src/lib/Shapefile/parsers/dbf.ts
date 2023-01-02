@@ -3,7 +3,6 @@ import {
   Dbase,
   DbaseHeader,
   DbaseField,
-  DbaseFieldProperty,
   DbaseVersion
 } from '../../../types'
 
@@ -44,7 +43,7 @@ function dbf(arrayBuffer: ArrayBuffer, options: DbfOptions): Dbase<DbaseVersion,
       ? 32
       : 68,
       arrayBuffer.byteLength)),
-    header.version,
+    header,
     options)
 
   return {
@@ -53,9 +52,9 @@ function dbf(arrayBuffer: ArrayBuffer, options: DbfOptions): Dbase<DbaseVersion,
   }
 }
 
-function getFields(array: Uint8Array, version: DbaseVersion, options: DbfOptions): Array<DbaseField<typeof version, typeof options.properties>> {
+function getFields(array: Uint8Array, header: DbaseHeader<DbaseVersion>, options: DbfOptions): Array<DbaseField<typeof header.version, typeof options.properties>> {
   let size: number
-  switch (version) {
+  switch (header.version) {
     case DbaseVersion.Level5:
       size = 32
       break
@@ -64,14 +63,14 @@ function getFields(array: Uint8Array, version: DbaseVersion, options: DbfOptions
       break
   }
 
-  const fields: Array<DbaseField<typeof version, typeof options.properties>> = []
+  const fields: Array<DbaseField<typeof header.version, typeof options.properties>> = []
   let bp = 0
   let terminated = false
   do {
     const terminator = array[bp]
     if (terminator === 0x0D) terminated = true
     else {
-      fields.push(getField(array.slice(bp, bp + size), version, options.properties))
+      fields.push(getField(array.slice(bp, bp + size), header.version, options.properties))
       bp += size
     }
   } while (!terminated)
@@ -79,12 +78,10 @@ function getFields(array: Uint8Array, version: DbaseVersion, options: DbfOptions
 
   if (options.properties) {
     do {
-      let row = 0
       for (let i = 0; i < fields.length; i++) {
-        const field = fields[i]
-        const valueRaw = Buffer.from(array.slice(bp, bp + field.length)).toString('utf-8').trim()
+        const valueRaw = Buffer.from(array.slice(bp, bp + fields[i].length)).toString('utf-8').trim()
         let value: any
-        switch (field.type) {
+        switch (fields[i].type) {
           case 'C':
             value = valueRaw
             break
@@ -106,8 +103,8 @@ function getFields(array: Uint8Array, version: DbaseVersion, options: DbfOptions
           case 'N':
             value = parseFloat(valueRaw)
         }
-        bp += field.length
-        fields[row++].properties!.push(value)
+        bp += fields[i].length
+        if (fields[i].properties!.length < header.numberOfRecords) fields[i].properties!.push(value)
       }
     } while (bp < array.byteLength)
   }
@@ -120,8 +117,8 @@ function getField(arrayBuffer: ArrayBuffer, version: DbaseVersion, properties: b
 
   switch (version) {
     case DbaseVersion.Level5: {
-      const name = Buffer.from(array.slice(0, 11)).toString('utf-8').replace(/[\u0000]+$/, '')
-      const type = Buffer.from(array.slice(11, 12)).toString('utf-8')
+      const name = Buffer.from(array.slice(0, 11)).toString('utf-8').replace(/[\u0000]+$/, '').trim()
+      const type = Buffer.from(array.slice(11, 12)).toString('utf-8').trim()
       const length = array[16]
       const decimals = array[17]
       const field: DbaseField<DbaseVersion.Level5, typeof properties> = {

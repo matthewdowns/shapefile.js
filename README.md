@@ -31,41 +31,48 @@ Install the package into your application
 npm install --save shapefile.js
 ```
 
-Import the `Shapefile` class and load a shapefile (using React as an example)
-```tsx
-import React, { useState } from 'react';
-import Shapefile from 'shapefile.js';
+Use the `ShapefileJS` UMD global variable and load a shapefile whenever the file input changes
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
 
-function App() {
-  const [shapefile, setShapefile] = useState<Shapefile>();
+    <!-- Load the shapefile.js library -->
+    <script src="https://unpkg.com/browse/shapefile.js@1.0.0/dist/index.js"></script>
 
-  return (
-    <div>
-      <input type="file" onChange={async e => {
-        if (e.target.files.length > 0) {
-          // Get the array buffer of the uploaded file
-          e.target.files[0].arrayBuffer().then(arrayBuffer => {
-            // Load the .zip shapefile to expose its contents
-            Shapefile.load(arrayBuffer).then(_shapefile => {
-              // Set shapefile state
-              setShapefile(_shapefile)
+    <!-- Add custom JS logic -->
+    <script>
+      window.addEventListener('DOMContentLoaded', () => {
+        const shapefileInput = document.getElementById('shapefile-input')
+        shapefileInput.addEventListener('change', () => {
+          if (shapefileInput.files.length > 0) {
+            e.target.files[0].arrayBuffer().then(arrayBuffer => {
+              // Load the .zip file to expose its contents
+              ShapefileJS.load(arrayBuffer).then(shapefile => {
+                console.log(shapefile.contents)
+              })
             })
-          })
-        }
-      }}>
+          }
+        })
+      })
+    </script>
+  </head>
+  <body>
+    <div>
+      <input id="shapefile-input" type="file" />
     </div>
-  )
-}
+  </body>
 ```
 
 You can parse each file in the Shapefile ZIP. Some files require additional arguments.
 ```tsx
-const parsedShp = shapefile.parse('shp');
-const parsedShx = shapefile.parse('shx');
-const parsedDbf = shapefile.parse('dbf', {
+const shp = shapefile.parse('shp');
+const shx = shapefile.parse('shx');
+const dbf = shapefile.parse('dbf', {
   // The expected timezone that dates are stored as in the .dbf file
   timezone: 'UTC',
-  
+
   // Stop parsing the file when the byte position hits the field descriptors terminator
   // This allows you to quickly get the fields used in the .dbf file and ignore the remainder of the file
   properties: false

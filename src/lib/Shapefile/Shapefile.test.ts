@@ -6,7 +6,6 @@ import Shapefile from './Shapefile'
 
 const testsDir = resolve(__dirname, '../../../tests')
 const USA_adm = readFileSync(join(testsDir, 'USA_adm.zip'))
-const Water_treatment_plants = readFileSync(join(testsDir, 'Water_treatment_plants.zip'))
 
 describe('Shapefile', () => {
   describe('USA_adm', () => {
@@ -36,83 +35,68 @@ describe('Shapefile', () => {
       expect(USA_adm1.contents.qix).toBeUndefined()
     })
 
-    describe('parsers', () => {
-      test('shp', async () => {
-        const parsed = USA_adm1.parse('shp')
-        expect(parsed.header.file.code).toBe(9994)
-        expect(parsed.header.file.length).toBe(17164452)
-        expect(parsed.header.type).toBe(5)
-        expect(parsed.header.boundingBox.minX).toBe(-179.15055847167963)
-        expect(parsed.header.boundingBox.minY).toBe(18.909858703613395)
-        expect(parsed.header.boundingBox.maxX).toBe(179.77340698242205)
-        expect(parsed.header.boundingBox.maxY).toBe(72.68750000000004)
-        expect(parsed.header.range.minZ).toBe(0)
-        expect(parsed.header.range.maxZ).toBe(0)
-        expect(parsed.header.range.minM).toBe(0)
-        expect(parsed.header.range.maxM).toBe(0)
-        expect(parsed.records.length).toBe(52)
-        expect(parsed.records[0].header.number).toBe(1)
-        expect(parsed.records[0].body.type).toBe(5)
-        expect((parsed.records[0].body.data as ShapePolygon).boundingBox.minX).toBe(-88.47203063964844)
-        expect((parsed.records[0].body.data as ShapePolygon).boundingBox.minY).toBe(30.217247009277287)
-        expect((parsed.records[0].body.data as ShapePolygon).boundingBox.maxX).toBe(-84.89348602294923)
-        expect((parsed.records[0].body.data as ShapePolygon).boundingBox.maxY).toBe(35.00888061523449)
-        expect((parsed.records[0].body.data as ShapePolygon).numberOfParts).toBe(23)
-        expect((parsed.records[0].body.data as ShapePolygon).numberOfPoints).toBe(11029)
-        expect((parsed.records[0].body.data as ShapePolygon).parts.length).toBe(23)
-        expect((parsed.records[0].body.data as ShapePolygon).points.length).toBe(11029)
-      })
-
-      test('shx', async () => {
-        const parsed = USA_adm1.parse('shx')
-        expect(parsed.header.file.code).toBe(9994)
-        expect(parsed.header.file.length).toBe(258)
-        expect(parsed.header.type).toBe(5)
-        expect(parsed.header.boundingBox.minX).toBe(-179.15055847167963)
-        expect(parsed.header.boundingBox.minY).toBe(18.909858703613395)
-        expect(parsed.header.boundingBox.maxX).toBe(179.77340698242205)
-        expect(parsed.header.boundingBox.maxY).toBe(72.68750000000004)
-        expect(parsed.header.range.minZ).toBe(0)
-        expect(parsed.header.range.maxZ).toBe(0)
-        expect(parsed.header.range.minM).toBe(0)
-        expect(parsed.header.range.maxM).toBe(0)
-        expect(parsed.records.length).toBe(52)
-        expect(parsed.records[0].offset).toBe(50)
-        expect(parsed.records[0].length).toBe(88300)
-      })
-
-      test('dbf', () => {
-        const parsed = USA_adm1.parse('dbf', { timezone: 'UTC', properties: false })
-        expect(parsed.header.version).toBe(DbaseVersion.Level5) // 3
-        expect(parsed.header.lastUpdated.toISOString()).toBe(moment.utc('2015-08-11 00:00:00').toISOString())
-        expect(parsed.header.numberOfRecords).toBe(52)
-        expect(parsed.header.numberOfBytesInHeader).toBe(321)
-        expect(parsed.header.numberOfBytesInRecord).toBe(474)
-        expect(parsed.header.languageDriver).toBeUndefined()
-        expect(parsed.fields.length).toBe(9)
-      })
-    })
-  })
-
-  describe('Water_treatment_plants', () => {
-    let Water_Treatment_Plant: Shapefile
-
-    beforeAll(async () => {
-      // The .zip file being loaded contains 3 "groups":
-      // USA_adm0, USA_adm1, and USA_adm2
-      const shapefiles = await Shapefile.load(Water_treatment_plants)
-      expect(Object.keys(shapefiles).length).toBe(1)
-
-      // For testing, we will use Water_Treatment_Plant
-      Water_Treatment_Plant = shapefiles['Water Treatment Plant']
+    test('shp', async () => {
+      const shp = USA_adm1.parse('shp')
+      expect(shp.header.file.code).toBe(9994)
+      expect(shp.header.file.length).toBe(17164452)
+      expect(shp.header.type).toBe(5)
+      expect(shp.header.boundingBox.minX).toBe(-179.15055847167963)
+      expect(shp.header.boundingBox.minY).toBe(18.909858703613395)
+      expect(shp.header.boundingBox.maxX).toBe(179.77340698242205)
+      expect(shp.header.boundingBox.maxY).toBe(72.68750000000004)
+      expect(shp.header.range.minZ).toBe(0)
+      expect(shp.header.range.maxZ).toBe(0)
+      expect(shp.header.range.minM).toBe(0)
+      expect(shp.header.range.maxM).toBe(0)
+      expect(shp.records.length).toBe(52)
+      expect(shp.records[0].header.number).toBe(1)
+      expect(shp.records[0].body.type).toBe(5)
+      expect((shp.records[0].body.data as ShapePolygon).boundingBox.minX).toBe(-88.47203063964844)
+      expect((shp.records[0].body.data as ShapePolygon).boundingBox.minY).toBe(30.217247009277287)
+      expect((shp.records[0].body.data as ShapePolygon).boundingBox.maxX).toBe(-84.89348602294923)
+      expect((shp.records[0].body.data as ShapePolygon).boundingBox.maxY).toBe(35.00888061523449)
+      expect((shp.records[0].body.data as ShapePolygon).numberOfParts).toBe(23)
+      expect((shp.records[0].body.data as ShapePolygon).numberOfPoints).toBe(11029)
+      expect((shp.records[0].body.data as ShapePolygon).parts.length).toBe(23)
+      expect((shp.records[0].body.data as ShapePolygon).points.length).toBe(11029)
     })
 
-    test('properties', () => {
-      const dbf = Water_Treatment_Plant.parse('dbf', {
-        timezone: 'UTC',
-        properties: true
+    test('shx', async () => {
+      const shx = USA_adm1.parse('shx')
+      expect(shx.header.file.code).toBe(9994)
+      expect(shx.header.file.length).toBe(258)
+      expect(shx.header.type).toBe(5)
+      expect(shx.header.boundingBox.minX).toBe(-179.15055847167963)
+      expect(shx.header.boundingBox.minY).toBe(18.909858703613395)
+      expect(shx.header.boundingBox.maxX).toBe(179.77340698242205)
+      expect(shx.header.boundingBox.maxY).toBe(72.68750000000004)
+      expect(shx.header.range.minZ).toBe(0)
+      expect(shx.header.range.maxZ).toBe(0)
+      expect(shx.header.range.minM).toBe(0)
+      expect(shx.header.range.maxM).toBe(0)
+      expect(shx.records.length).toBe(52)
+      expect(shx.records[0].offset).toBe(50)
+      expect(shx.records[0].length).toBe(88300)
+    })
+
+    test('dbf', () => {
+      const dbf = USA_adm1.parse('dbf', { timezone: 'UTC', properties: true })
+      expect(dbf.header.version).toBe(DbaseVersion.Level5) // 3
+      expect(dbf.header.lastUpdated.toISOString()).toBe(moment.utc('2015-08-11 00:00:00').toISOString())
+      expect(dbf.header.numberOfRecords).toBe(52)
+      expect(dbf.header.numberOfBytesInHeader).toBe(321)
+      expect(dbf.header.numberOfBytesInRecord).toBe(474)
+      expect(dbf.header.languageDriver).toBeUndefined()
+      expect(dbf.fields.length).toBe(9)
+      dbf.fields.forEach(field => {
+        expect(field.properties).toBeDefined()
+        expect(field.properties!.length).toBe(dbf.header.numberOfRecords)
       })
-      console.log(dbf.fields.map(f => f.name))
+    })
+
+    test('prj', () => {
+      const prj = Buffer.from(USA_adm1.contents.prj!).toString('utf-8')
+      expect(prj).toBe('GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]]')
     })
   })
 })
