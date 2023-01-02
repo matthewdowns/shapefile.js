@@ -6,11 +6,10 @@ import {
 } from '../../../types'
 
 export interface DbfOptions {
-  timezone: string
   properties: boolean
 }
 
-function dbf(arrayBuffer: ArrayBuffer, options: DbfOptions): Dbase<DbaseVersion, typeof options.properties> {
+function dbf(arrayBuffer: ArrayBuffer, properties = true): Dbase<DbaseVersion, typeof properties> {
   const array = new Uint8Array(arrayBuffer)
   const dv = new DataView(arrayBuffer)
 
@@ -44,7 +43,7 @@ function dbf(arrayBuffer: ArrayBuffer, options: DbfOptions): Dbase<DbaseVersion,
       : 68,
       arrayBuffer.byteLength)),
     header,
-    options)
+    properties)
 
   return {
     header,
@@ -52,7 +51,7 @@ function dbf(arrayBuffer: ArrayBuffer, options: DbfOptions): Dbase<DbaseVersion,
   }
 }
 
-function getFields(array: Uint8Array, header: DbaseHeader<DbaseVersion>, options: DbfOptions): Array<DbaseField<typeof header.version, typeof options.properties>> {
+function getFields(array: Uint8Array, header: DbaseHeader<DbaseVersion>, properties: boolean): Array<DbaseField<typeof header.version, typeof properties>> {
   let size: number
   switch (header.version) {
     case DbaseVersion.Level5:
@@ -63,20 +62,20 @@ function getFields(array: Uint8Array, header: DbaseHeader<DbaseVersion>, options
       break
   }
 
-  const fields: Array<DbaseField<typeof header.version, typeof options.properties>> = []
+  const fields: Array<DbaseField<typeof header.version, typeof properties>> = []
   let bp = 0
   let terminated = false
   do {
     const terminator = array[bp]
     if (terminator === 0x0D) terminated = true
     else {
-      fields.push(getField(array.slice(bp, bp + size), header.version, options.properties))
+      fields.push(getField(array.slice(bp, bp + size), header.version, properties))
       bp += size
     }
   } while (!terminated)
   bp += 1
 
-  if (options.properties) {
+  if (properties === true) {
     do {
       for (let i = 0; i < fields.length; i++) {
         const valueRaw = Buffer.from(array.slice(bp, bp + fields[i].length)).toString('utf-8').trim()
