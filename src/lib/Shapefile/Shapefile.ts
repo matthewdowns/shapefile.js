@@ -1,13 +1,13 @@
 import JSZip from 'jszip'
-import {
+import type {
   Dbase,
   DbaseVersion,
   Shape,
   ShapeIndex
 } from '../../types'
 import * as parsers from './parsers'
-import { DbfOptions } from './parsers/dbf'
-import { ShapefileContents } from './Shapefile.types'
+import type { DbfOptions } from './parsers/dbf'
+import type { ShapefileContents } from './Shapefile.types'
 
 type JSZipLoadAsyncParamters = Parameters<typeof JSZip.loadAsync>
 

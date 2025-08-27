@@ -13,14 +13,14 @@ import {
   ShapeType
 } from '../../../types'
 
-function shp(arrayBuffer: ArrayBuffer): Shape {
+function shp(arrayBuffer: ArrayBufferLike): Shape {
   return {
     header: getHeader(arrayBuffer.slice(0, 100)),
     records: getRecords(arrayBuffer.slice(100, arrayBuffer.byteLength))
   }
 }
 
-function getHeader(arrayBuffer: ArrayBuffer): ShapeHeader {
+function getHeader(arrayBuffer: ArrayBufferLike): ShapeHeader {
   const dv = new DataView(arrayBuffer)
   return {
     file: {
@@ -44,7 +44,7 @@ function getHeader(arrayBuffer: ArrayBuffer): ShapeHeader {
   }
 }
 
-function getRecords(arrayBuffer: ArrayBuffer): Array<ShapeRecord<ShapeType>> {
+function getRecords(arrayBuffer: ArrayBufferLike): Array<ShapeRecord<ShapeType>> {
   const dv = new DataView(arrayBuffer)
 
   let bp = 0
@@ -159,7 +159,7 @@ function getRecords(arrayBuffer: ArrayBuffer): Array<ShapeRecord<ShapeType>> {
   return records
 }
 
-function getBoundingBox(arrayBuffer: ArrayBuffer): ShapeBoundingBox {
+function getBoundingBox(arrayBuffer: ArrayBufferLike): ShapeBoundingBox {
   const dv = new DataView(arrayBuffer)
   return {
     minX: dv.getFloat64(0, true),
@@ -169,11 +169,11 @@ function getBoundingBox(arrayBuffer: ArrayBuffer): ShapeBoundingBox {
   }
 }
 
-function getPoint(arrayBuffer: ArrayBuffer): ShapePoint
-function getPoint(arrayBuffer: ArrayBuffer, type: undefined): ShapePoint
-function getPoint(arrayBuffer: ArrayBuffer, type: 'M'): ShapePointZ
-function getPoint(arrayBuffer: ArrayBuffer, type: 'Z'): ShapePointZ
-function getPoint(arrayBuffer: ArrayBuffer, type?: 'M' | 'Z'): ShapePoint | ShapePointZ {
+function getPoint(arrayBuffer: ArrayBufferLike): ShapePoint
+function getPoint(arrayBuffer: ArrayBufferLike, type: undefined): ShapePoint
+function getPoint(arrayBuffer: ArrayBufferLike, type: 'M'): ShapePointZ
+function getPoint(arrayBuffer: ArrayBufferLike, type: 'Z'): ShapePointZ
+function getPoint(arrayBuffer: ArrayBufferLike, type?: 'M' | 'Z'): ShapePoint | ShapePointZ {
   const dv = new DataView(arrayBuffer)
   return {
     x: dv.getFloat64(0, true),

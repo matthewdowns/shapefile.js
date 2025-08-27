@@ -1,2 +1,2 @@
 export { default } from './Shapefile'
-export * from './Shapefile.types'
+export type * from './Shapefile.types'

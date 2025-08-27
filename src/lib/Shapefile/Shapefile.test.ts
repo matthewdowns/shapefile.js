@@ -4,7 +4,7 @@ import { DbaseVersion, ShapePolygon } from '../../types'
 import Shapefile from './Shapefile'
 
 const testsDir = resolve(__dirname, '../../../tests')
-const USA_adm = readFileSync(join(testsDir, 'USA_adm.zip'))
+const USA_adm = new Uint8Array(readFileSync(join(testsDir, 'USA_adm.zip')))
 
 describe('Shapefile', () => {
   describe('USA_adm', () => {

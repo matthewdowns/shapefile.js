@@ -4,7 +4,7 @@ import {
   ShapeIndexRecord
 } from '../../../types'
 
-function shx(buffer: ArrayBuffer): ShapeIndex {
+function shx(buffer: ArrayBufferLike): ShapeIndex {
   const header = getHeader(buffer.slice(0, 100))
   const records = getRecords(buffer.slice(100, buffer.byteLength))
 
@@ -14,7 +14,7 @@ function shx(buffer: ArrayBuffer): ShapeIndex {
   }
 }
 
-function getHeader(arrayBuffer: ArrayBuffer): ShapeHeader {
+function getHeader(arrayBuffer: ArrayBufferLike): ShapeHeader {
   const dv = new DataView(arrayBuffer)
   return {
     file: {
@@ -38,7 +38,7 @@ function getHeader(arrayBuffer: ArrayBuffer): ShapeHeader {
   }
 }
 
-function getRecords(arrayBuffer: ArrayBuffer): ShapeIndexRecord[] {
+function getRecords(arrayBuffer: ArrayBufferLike): ShapeIndexRecord[] {
   const dv = new DataView(arrayBuffer)
 
   let bp = 0

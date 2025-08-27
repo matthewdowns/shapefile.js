@@ -9,7 +9,7 @@ export interface DbfOptions {
   properties: boolean
 }
 
-function dbf(arrayBuffer: ArrayBuffer, options: DbfOptions): Dbase<DbaseVersion, typeof options.properties> {
+function dbf(arrayBuffer: ArrayBufferLike, options: DbfOptions): Dbase<DbaseVersion, typeof options.properties> {
   const array = new Uint8Array(arrayBuffer)
   const dv = new DataView(arrayBuffer)
 
@@ -111,7 +111,7 @@ function getFields(array: Uint8Array, header: DbaseHeader<DbaseVersion>, options
   return fields
 }
 
-function getField(arrayBuffer: ArrayBuffer, version: DbaseVersion, properties: boolean): DbaseField<typeof version, typeof properties> {
+function getField(arrayBuffer: Uint8Array, version: DbaseVersion, properties: boolean): DbaseField<typeof version, typeof properties> {
   const array = new Uint8Array(arrayBuffer)
 
   switch (version) {
