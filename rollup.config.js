@@ -1,7 +1,6 @@
 const commonjs = require('@rollup/plugin-commonjs')
 const nodeResolve = require('@rollup/plugin-node-resolve')
 const typescript = require('@rollup/plugin-typescript')
-const { terser } = require('rollup-plugin-terser')
 const { resolve } = require('path')
 const { dependencies } = require('./package.json')
 
@@ -57,8 +56,7 @@ const production = {
       sourceMap: false
     }),
     nodeResolve({ browser: true }),
-    commonjs(),
-    terser()
+    commonjs()
   ]
 }
 
