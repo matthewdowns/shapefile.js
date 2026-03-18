@@ -15,10 +15,10 @@ jobs:
       packages: write
     steps:
       - uses: actions/checkout@v6
-      - name: Use Node.js 16.x
+      - name: Use Node.js 24.x
         uses: actions/setup-node@v6.3.0
         with:
-          node-version: 16.x
+          node-version: 24.x
           registry-url: https://registry.npmjs.org/
       - name: Install dependencies
         run: npm install
